@@ -6,6 +6,7 @@ NAME: Tijn Kersjes
 STUDENT ID: 11048018
 """
 
+import sys
 import random
 
 def flipCoin(seq):
@@ -16,12 +17,17 @@ def flipCoin(seq):
 def runMatch(players):
 
     ps = players[:]
-    seq = "." * len(players[0])
+    n = len(players[0])
+    seq = "." * n
 
     rounds = 0
+    print "Flipping coins:"
     while seq != ps[0] and seq != ps[1]:
         rounds += 1
         seq = flipCoin(seq)
+        sys.stdout.write(seq[n - 1])
+        sys.stdout.flush()
+    sys.stdout.write("\n\n")
 
     winner = 0 if seq == ps[0] else 1
 
