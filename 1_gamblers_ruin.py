@@ -2,32 +2,36 @@
 
 import random
 
-def doRound(players):
+def doRound(ps):
 
     heads = bool(random.getrandbits(1))
 
     if heads:
-        players[0] += 1
-        players[1] -= 1
+        ps[0] += 1
+        ps[1] -= 1
     else:
-        players[1] += 1
-        players[0] -= 1
+        ps[1] += 1
+        ps[0] -= 1
 
 def runMatch(players):
 
-    rounds = 0
-    while players[0] > 0 and players[1] > 0:
-        rounds += 1
-        doRound(players)
+    ps = players[:]
 
-    return rounds
+    rounds = 0
+    while ps[0] > 0 and ps[1] > 0:
+        rounds += 1
+        doRound(ps)
+
+    winner = 1 if ps[0] == 0 else 0
+
+    return (rounds, winner)
 
 def main():
 
     players = [5, 10]
-    rounds = runMatch(players)
+    rounds, winner = runMatch(players)
 
-    winner = "Anna" if players[0] == 0 else "Bob"
+    winner = "Anna" if winner == 1 else "Bob"
     print winner, "wins after", rounds, "rounds."
 
 if __name__ == "__main__":
