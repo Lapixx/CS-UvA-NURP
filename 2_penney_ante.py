@@ -29,9 +29,8 @@ def runMatch(players):
 
     return (rounds, winner)
 
-def main():
+def main(players):
 
-    players = ["HTT", "HHT"]
     iterations = 100000
 
     total_rounds = 0
@@ -67,4 +66,15 @@ def main():
     print "Wins by Bob:", str(frac_bob_wins) + "%", "(taking", avg_rounds_if_bob_wins, "rounds on average)"
 
 if __name__ == "__main__":
-    main()
+    players_1 = ["HTT", "HHT"]
+    players_2 = ["THH", "HHT"]
+
+    print "Anna => Head - Head - Tails"
+    print "Bob => Head - Tails - Tails"
+    main(players_1)
+
+    print "\n---------------------------\n"
+    
+    print "Anna => Tails - Head - Head"
+    print "Bob  => Head - Head - Tails"
+    main(players_2)
