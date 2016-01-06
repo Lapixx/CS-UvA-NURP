@@ -29,7 +29,16 @@ def runMatch(players):
 
     return (rounds, winner)
 
-def main(players):
+def generateSequences(n):
+    seqs = []
+    for i in range(2**n):
+        seq = ""
+        for j in range(n):
+            seq = ("T" if (i & 2**j) else "H") + seq
+        seqs += [seq];
+    return seqs
+
+def displayStats(players):
 
     iterations = 100000
 
@@ -45,11 +54,11 @@ def main(players):
 
         total_rounds += rounds
         if winner == 0:
-            total_bob_wins += 1
-            rounds_if_bob_wins += rounds
-        else:
             total_anna_wins += 1
             rounds_if_anna_wins += rounds
+        else:
+            total_bob_wins += 1
+            rounds_if_bob_wins += rounds
 
         sys.stdout.write("\rFlipping coins... " + str(100 * (i+1) / iterations) + "% ")
         sys.stdout.flush()
@@ -65,16 +74,64 @@ def main(players):
     print "Wins by Anna:", str(frac_anna_wins) + "%", "(taking", avg_rounds_if_anna_wins, "rounds on average)"
     print "Wins by Bob:", str(frac_bob_wins) + "%", "(taking", avg_rounds_if_bob_wins, "rounds on average)"
 
-if __name__ == "__main__":
-    players_1 = ["HTT", "HHT"]
-    players_2 = ["THH", "HHT"]
+def assignmentA():
+    players_a = ["HHT", "HTT"]
+    print "Anna =>", players_a[0]
+    print "Bob  =>", players_a[1]
+    displayStats(players_a)
 
-    print "Anna => Head - Head - Tails"
-    print "Bob => Head - Tails - Tails"
-    main(players_1)
+def assignmentB():
+    players_b = ["HHT", "THH"]
+    print "Anna =>", players_b[0]
+    print "Bob  =>", players_b[1]
+    displayStats(players_b)
 
+def assignmentC():
+    iterations = 25000
+    n = 3
+    possibleSeqs = generateSequences(n)
+
+    # for all possible sequences that Anna can pick
+    for a in possibleSeqs:
+        best_seq = ""
+        best_score = -1
+
+        # check all possible counter sequences for Bob
+        for i in range(2**n):
+
+            b = possibleSeqs[i]
+
+            # calculate winning odds
+            anna_win = 0
+            bob_win = 0
+
+            for j in range(iterations):
+
+                _, winner = runMatch([a, b])
+
+                if winner == 0:
+                    anna_win += 1
+                else:
+                    bob_win += 1
+
+                sys.stdout.write("\rAnna picks " + a + " => Flipping coins... " + str(100 * (i * iterations + j) / (2**n * iterations)) + "% ")
+                sys.stdout.flush()
+
+            score = int(round(float(bob_win) / float(anna_win)))
+
+            # find the best counter strategy
+            if score > best_score:
+                best_score = score
+                best_seq = b
+
+        sys.stdout.write("\rAnna picks " + a + " => Bob should pick " + best_seq + " (" + str(best_score) + " to 1)\n")
+
+def main():
+    assignmentA()
     print "\n---------------------------\n"
-    
-    print "Anna => Tails - Head - Head"
-    print "Bob  => Head - Head - Tails"
-    main(players_2)
+    assignmentB();
+    print "\n---------------------------\n"
+    assignmentC();
+
+if __name__ == "__main__":
+    main()
