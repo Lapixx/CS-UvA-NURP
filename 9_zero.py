@@ -34,7 +34,8 @@ def bisection_solve(f, a, b, tol=0.001, maxiter=100):
         else:
             a = p
 
-        if abs((a - b) / 2) < tol:
+        rerr = abs((b - a) / (b + a))
+        if rerr < tol:
             return p, (i+1)
 
     # unable to approximate x within maxiter iterations
