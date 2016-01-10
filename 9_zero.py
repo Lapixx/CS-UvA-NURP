@@ -35,19 +35,18 @@ def bisection_solve(f, a, b, tol=0.001, maxiter=100):
             a = p
 
         if abs((a - b) / 2) < tol:
-            return p
+            return p, (i+1)
 
     # unable to approximate x within maxiter iterations
     return None
 
 def main():
     f = lambda x: (x**3) + (2*x) - 1
-
-    x0 = bisection_solve(f, 0, 1)
-    print "x = " + str(x0)
-
-    x0 = bisection_solve(f, 0, 1, 10**-5)
-    print "x = " + str(x0)
+    for p in range(1, 16):
+        x0, iters = bisection_solve(f, 0, 1, 10**-p)
+        print "Tolerance 10E-" + str(p) + ": x = " + str(x0) + " (" + str(iters) + " iterations)"
+        print "Iterations/tolerance ratio = " + str(iters / float(p))
+        print ""
 
 if __name__ == "__main__":
     main()
