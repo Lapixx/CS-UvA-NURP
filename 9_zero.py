@@ -95,12 +95,52 @@ def assignmentB():
         print "Iterations/tolerance ratio = " + str(iters / float(p))
         print ""
 
+# ----- Assignment C -----
+
+def secant_solve(f, a, b, tol=0.001, maxiter=100):
+    """
+    Find the zero of a function f between a and b using the
+    Secant Method with tolerance tol (default: 0.001) and
+    maximum number of iterations equal to maxiter (default: 1000)
+    """
+    for i in range(maxiter):
+
+        # calculate values at a, b
+        ya = f(a)
+        yb = f(b)
+
+        # find intersection p
+        p = b - yb * ((b - a) / float(yb - ya))
+
+        # calculate value at p
+        yp = f(p)
+
+        # shift next bounds
+        a = b
+        b = p
+
+        diff = abs(a - b)
+        if yp == 0 or diff < tol:
+            return p, (i+1)
+
+    return None
+
+def assignmentC():
+    f = lambda x: (x**3) + (2*x) - 1
+    for p in range(1, 16):
+        x0, iters = secant_solve(f, 0, 1, 10**-p)
+        print "Tolerance 10E-" + str(p) + ": x = " + str(x0) + " (" + str(iters) + " iterations)"
+        print "Iterations/tolerance ratio = " + str(iters / float(p))
+        print ""
+
 # ----- Entry point -----
 def main():
     print "----- Assignment A: Binary Search -----"
     assignmentA()
     print "----- Assignment B: Regula Falsi ----- "
     assignmentB()
+    print "----- Assignment C: Secant ----- "
+    assignmentC()
 
 if __name__ == "__main__":
     main()
