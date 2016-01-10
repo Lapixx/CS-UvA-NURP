@@ -49,12 +49,25 @@ def assignmentA():
     dxs, dys = unzip(points_d)
     exs, eys = unzip(points_e)
 
-    plt.plot(axs, ays, 'r-', bxs, bys, 'g-', cxs, cys, 'b-', dxs, dys, 'g--', exs, eys, 'b--')
-    plt.legend(['t = -0.5', 't = -0.25', 't = 0', 't = 0.25', 't = 0.5'])
-    plt.axis([-4, 4, -2, 2])
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.title('Graphs')
+    plt.subplot(511)
+    plt.title('t = -0.5')
+    plt.plot(axs, ays, 'r-')
+
+    plt.subplot(512)
+    plt.title('t = -0.25')
+    plt.plot(bxs, bys, 'r-')
+
+    plt.subplot(513)
+    plt.title('t = 0')
+    plt.plot(cxs, cys, 'r-')
+
+    plt.subplot(514)
+    plt.title('t = 0.25')
+    plt.plot(dxs, dys, 'r-')
+
+    plt.subplot(515)
+    plt.title('t = 0.5')
+    plt.plot(exs, eys, 'r-')
 
     plt.show()
 
